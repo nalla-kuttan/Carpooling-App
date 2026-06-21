@@ -5,7 +5,7 @@ import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { NotificationsService } from "../notifications.service";
-import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
+import { StopLocationInfo } from "../rides/rides.component";
 
 @Component({
   selector: "app-ride-card",
@@ -13,46 +13,41 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
   template: `
     <div class="card">
       <div class="card-header">
-        <p *ngIf="userIsCreator"><b>Your Ride</b></p>
-        <p><b>Ride to:</b> {{ ride?.dropoffLocation?.name }}</p>
-        <!-- <p class="info" *ngIf="userIsDriver"><b>Driver:</b> You</p>
-        <p class="info" *ngIf="userIsRider"><b>You are a rider</b></p> -->
+        <p *ngIf="userIsCreator" class="badge creator-badge"><b>Your Ride</b></p>
+        <p class="destination-header"><b>Ride to:</b> {{ ride?.dropoffLocation?.name }}</p>
       </div>
 
       <div class="card-body" (click)="onRideClick()">
-        <p><b>Destination:</b> {{ ride?.dropoffLocation?.address }}</p>
-        <p><b>Capacity:</b> {{ riderCount }}/3</p>
+        <p class="body-address"><b>Destination:</b> {{ ride?.dropoffLocation?.address }}</p>
+        <p class="body-capacity"><b>Capacity:</b> {{ riderCount }}/3</p>
 
         <div class="time-date">
           <label><b>Arrival Time:</b></label>
           <p>{{ this.timeStr }}</p>
           <label><b>Date:</b></label>
-          <p>
-            {{ rideDateStr }}
-          </p>
+          <p>{{ rideDateStr }}</p>
         </div>
         
         <div *ngIf="useMatching" class="ic-container">
-          <label *ngIf="interests.length < 1 && classes.length < 1">No matching interests or classes</label>
-          <div  class="interests">
-            <label *ngIf="interests.length > 0"><b>Matching Interests:</b></label>
+          <label *ngIf="interests.length < 1 && classes.length < 1" class="no-matches">No matching interests or classes</label>
+          <div class="interests" *ngIf="interests.length > 0">
+            <label><b>Matching Interests:</b></label>
             <p *ngFor="let interest of interests">{{ interest }}</p>
           </div>
           <div *ngIf="classes.length > 0" class="classes">
             <label><b>Matching Classes:</b></label>
-            <p *ngFor="let class of classes">{{ class }}</p>
+            <p *ngFor="let classItem of classes">{{ classItem }}</p>
           </div>
         </div>
 
-
-        <!-- Ride card buttons -->
-
         <!-- Offer to Drive -->
-        <div *ngIf="!userBecameDriver && !userIsDriver && needsDriver">
+        <div *ngIf="!userBecameDriver && !userIsDriver && needsDriver" class="btn-group">
           <button
             *ngIf="needsDriver && userCanDrive"
-            (click)="onDriverNeededClick()"
+            (click)="onDriverNeededClick(); $event.stopPropagation()"
             [disabled]="userBecameDriver"
+            class="mat-raised-button"
+            color="primary"
           >
             Offer To Drive
           </button>
@@ -61,61 +56,89 @@ import { StopLocationInfo, PlaceResult } from "../rides/rides.component";
         
         <!-- Cancel Drive Offer -->
         <button
-          class="leave"
+          class="leave mat-raised-button"
+          color="accent"
           *ngIf="(userIsDriver || userBecameDriver) && !userCancelledDriveOffer && !userIsCreator"
-          (click)="onCancelDriveOfferClick()"
+          (click)="onCancelDriveOfferClick(); $event.stopPropagation()"
           [disabled]="userCancelledDriveOffer || userIsCreator"
         >
           Cancel Drive Offer
         </button>
 
-        <!-- Join Ride -->
-        <div *ngIf='userCanJoin && roomAvailable && !userBecameRider'>
+        <!-- Join Ride / Request to Join -->
+        <div *ngIf="userCanJoin && roomAvailable && !userBecameRider && !userIsRider" class="btn-group">
+          <button
+            *ngIf="userIsPending"
+            [disabled]="true"
+            class="pending-button"
+            (click)="$event.stopPropagation()"
+          >
+            <mat-icon style="margin-right: 4px; font-size: 16px; width: 16px; height: 16px; vertical-align: middle;">hourglass_empty</mat-icon>
+            <span>Request Pending</span>
+          </button>
 
           <button
-            *ngIf="!userIsDriver"
-            (click)="onJoinRideClick()"
-            [disabled]="userBecameRider || userIsRider || (!puLocation?.valid && userCanJoin && roomAvailable)">
-            Join Ride
+            *ngIf="!userIsPending && !userIsDriver"
+            (click)="onRequestJoinClick(); $event.stopPropagation()"
+            [disabled]="!puLocation?.valid"
+            class="mat-raised-button"
+            color="primary"
+          >
+            <mat-icon style="margin-right: 4px; font-size: 16px; width: 16px; height: 16px; vertical-align: middle;">hail</mat-icon>
+            <span>Request to Join</span>
           </button>
 
           <!-- Button for if user is driver -->
           <button
-            *ngIf="userIsDriver"
-            (click)="onJoinRideClick()"
-            [disabled]="userBecameRider || userIsRider || (!puLocation?.valid && userCanJoin && roomAvailable)">
+            *ngIf="!userIsPending && userIsDriver"
+            (click)="onRequestJoinClick(); $event.stopPropagation()"
+            [disabled]="!puLocation?.valid"
+            class="mat-raised-button"
+            color="primary"
+          >
             Switch to Rider
           </button>
 
-          <p *ngIf="!puLocation?.valid && userCanJoin && roomAvailable" class="warning">Please enter a valid pickup location to join</p>
-          <p *ngIf="userIsRider || userBecameRider" class="warning">You are already a rider</p>
-          <!-- <p *ngIf="userIsDriver" class="warning">Swap from driver to rider</p>     -->
+          <p *ngIf="!puLocation?.valid && !userIsPending" class="warning">Please enter a valid pickup location to request</p>
         </div>
 
         <!-- Leave Ride -->
         <button
-          class="leave"
+          class="leave mat-raised-button"
+          color="accent"
           *ngIf="(userIsRider && !userIsCreator && !userLeftRide) || userBecameRider && !userLeftRide && !userIsCreator"
-          (click)="onLeaveRideClick()"
+          (click)="onLeaveRideClick(); $event.stopPropagation()"
         >
           Leave Ride
         </button>
 
-      </div>
+        <!-- Pending Requests Queue for Driver/Creator -->
+        <div 
+          *ngIf="(userIsDriver || userIsCreator) && ride?.pendingRiders && ride.pendingRiders.length > 0" 
+          class="pending-requests-section"
+          (click)="$event.stopPropagation()"
+        >
+          <h4 class="section-title">Ride Requests ({{ ride.pendingRiders.length }})</h4>
+          <div class="pending-rider-item" *ngFor="let req of ride.pendingRiders">
+            <div class="rider-req-info">
+              <span class="rider-req-name"><b>{{ req.username || req.riderId }}</b></span>
+              <span class="rider-req-addr" *ngIf="req.pickupLocation?.address">{{ req.pickupLocation.address }}</span>
+            </div>
+            <div class="rider-req-actions">
+              <button class="accept-btn" (click)="onAcceptRiderClick(req.riderId)" title="Accept Rider">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button class="decline-btn" (click)="onDeclineRiderClick(req.riderId)" title="Decline Rider">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
 
-      <!-- Ouputs ride and buttonVars to console on press -->
-      <!-- Switch *nfIf='true' to use -->
-      <button class="dev-only"
-        *ngIf='false'
-        (click)="outputButtonVars()">
-        check ride & btn vars
-      </button>
+      </div>
     </div>
   `,
 })
-
-
-
 export class RideCardComponent implements OnInit {
   user: any;
 
@@ -126,7 +149,7 @@ export class RideCardComponent implements OnInit {
   endLocation: StopLocation | undefined;
   endLocationMarker: { lat: number; lng: number } | undefined;
 
-  //for determining button availability
+  // For determining button availability
   userCanJoin: boolean = true;
   userCanDrive: boolean = true;
   userIsDriver: boolean = false;
@@ -136,16 +159,17 @@ export class RideCardComponent implements OnInit {
   userLeftRide: boolean = false;
   userIsCreator: boolean = false;
   userCancelledDriveOffer: boolean = false;
+  userIsPending: boolean = false;
 
-  //for displaying information to the user
+  // For displaying information to the user
   rideDateStr: string | undefined;
   timeStr: string | undefined;
 
-  //for holding rider/driver interests/classes
+  // For holding rider/driver interests/classes
   interests: string[] = [];
   classes: string[] = [];
 
-  @Input() ride: Ride | undefined;
+  @Input() ride: any;
   @Input() puLocation: StopLocationInfo | undefined;
   @Input() doLocation: StopLocationInfo | undefined;
   @Input() useMatching: boolean | undefined;
@@ -167,59 +191,33 @@ export class RideCardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.user = this.authService.readToken();
 
     let dateTimeStr = this.ride?.dateTime;
     if (dateTimeStr) {
       this.rideDate = new Date(dateTimeStr);
     }
-    //setting date string for display
+    
+    // Setting date string for display
     var monthName: string | undefined;
     switch (this.rideDate?.getMonth()) {
-      case 0:
-        monthName = 'January';
-        break;
-      case 1:
-        monthName = 'February';
-        break;
-      case 2:
-        monthName = 'March';
-        break;
-      case 3:
-        monthName = 'April';
-        break;
-      case 4:
-        monthName = 'May';
-        break;
-      case 5:
-        monthName = 'June';
-        break;
-      case 6:
-        monthName = 'July';
-        break;
-      case 7:
-        monthName = 'August';
-        break;
-      case 8:
-        monthName = 'September';
-        break;
-      case 9:
-        monthName = 'October';
-        break;
-      case 10:
-        monthName = 'November';
-        break;
-      case 11:
-        monthName = 'December';
-        break;
-      default:
-        monthName = '';
-        break;
+      case 0: monthName = 'January'; break;
+      case 1: monthName = 'February'; break;
+      case 2: monthName = 'March'; break;
+      case 3: monthName = 'April'; break;
+      case 4: monthName = 'May'; break;
+      case 5: monthName = 'June'; break;
+      case 6: monthName = 'July'; break;
+      case 7: monthName = 'August'; break;
+      case 8: monthName = 'September'; break;
+      case 9: monthName = 'October'; break;
+      case 10: monthName = 'November'; break;
+      case 11: monthName = 'December'; break;
+      default: monthName = ''; break;
     }
     this.rideDateStr = `${this.rideDate?.getDate()} ${monthName}, ${this.rideDate?.getFullYear()}`;
 
-    //setting time string for display
+    // Setting time string for display
     if (this.rideDate){
       let hour = this.rideDate?.getHours();
       let minute = this.rideDate?.getMinutes();
@@ -227,7 +225,7 @@ export class RideCardComponent implements OnInit {
       hour = hour % 12;
       hour = hour ? hour : 12;
 
-      //formatting for 12hr clock
+      // Formatting for 12hr clock
       if (hour < 10){
         this.timeStr = `0${hour}:`;
       } else {
@@ -235,12 +233,12 @@ export class RideCardComponent implements OnInit {
       }
       if (minute < 10){
         this.timeStr += `0${minute} ${ampm}`;
-      }else {
+      } else {
         this.timeStr += `${minute} ${ampm}`;
       }
     }
 
-    //check if room is available to join, remove join button if not
+    // Check if room is available to join, remove join button if not
     this.riderCount = this.ride?.riders?.length;
     if (this.riderCount) {
       if (this.riderCount >= 3) {
@@ -248,7 +246,7 @@ export class RideCardComponent implements OnInit {
       }
     }
 
-    //check if user is already involved in ride, no buttons if so
+    // Check if user is already involved in ride, no buttons if so
     if (this.ride?.riders) {
       for (const rider of this.ride?.riders) {
         if (rider.riderID === this.user._id) {
@@ -258,7 +256,17 @@ export class RideCardComponent implements OnInit {
       }
     }
 
-    //checks if ride has a driver
+    // Check if user has a pending request
+    if (this.ride?.pendingRiders) {
+      for (const pr of this.ride?.pendingRiders) {
+        if (pr.riderID === this.user._id || pr.riderId === this.user._id) {
+          this.userIsPending = true;
+          this.userCanJoin = true; // Still can join (show pending state instead of error warnings)
+        }
+      }
+    }
+
+    // Checks if ride has a driver
     if (this.ride?.driver) {
       this.needsDriver = false;
 
@@ -267,7 +275,7 @@ export class RideCardComponent implements OnInit {
       }
     }
 
-    //checks if user is creator of ride
+    // Checks if user is creator of ride
     if (this.ride?.creator === this.user._id) {
       this.userIsCreator = true;
     }
@@ -278,75 +286,111 @@ export class RideCardComponent implements OnInit {
     this.setMatchValues();
   }
 
-
   setMatchValues() {
     if (this.ride?.riderInterests){
       this.interests = this.ride?.riderInterests;
-      //sort this.interests alphabetically
       this.interests.sort();
     }
     if (this.ride?.riderClasses){
       this.classes = this.ride?.riderClasses;
-      //sort this.classes alphabetically
       this.classes.sort();
     }
-
   }
 
-
-  //For refreshing a ride card after a user action
   reInit() {
     this.ngOnInit();
-  }
-
-  //dev function to check button variables
-  outputButtonVars() {
-
-    console.log("userCanJoin: " + this.userCanJoin);
-    console.log("userCanDrive: " + this.userCanDrive);
-    console.log("userIsDriver: " + this.userIsDriver);
-    console.log("userIsRider: " + this.userIsRider);
-    console.log("userBecameRider: " + this.userBecameRider);
-    console.log("userBecameDriver: " + this.userBecameDriver);
-    console.log("userLeftRide: " + this.userLeftRide);
-    console.log("userIsCreator: " + this.userIsCreator);
-    console.log("userCancelledDriveOffer: " + this.userCancelledDriveOffer);
-    console.log("needsDriver: " + this.needsDriver);
-
-    //have above also appear in an aler
-    alert(
-      "userCanJoin: " +
-        this.userCanJoin +
-        "\nuserCanDrive: " +
-        this.userCanDrive +
-        "\nuserIsDriver: " +
-        this.userIsDriver +
-        "\nuserIsRider: " +
-        this.userIsRider +
-        "\nuserBecameRider: " +
-        this.userBecameRider +
-        "\nuserBecameDriver: " +
-        this.userBecameDriver +
-        "\nuserLeftRide: " +
-        this.userLeftRide +
-        "\nuserIsCreator: " +
-        this.userIsCreator +
-        "\nuserCancelledDriveOffer: " +
-        this.userCancelledDriveOffer +
-        "\nneedsDriver: " +
-        this.needsDriver
-    );
   }
 
   onRideClick() {
     this.emitLocation();
   }
 
-  //Add a rider to the ride
+  // Request to Join flow
+  onRequestJoinClick() {
+    const pickupLocation = this.puLocation;
+
+    this.rideService
+      .requestJoinRide(this.ride?._id, this.user?._id, pickupLocation)
+      .subscribe(
+        (response) => {
+          this.toastr.info("Join Request Sent");
+          
+          // Send notification to driver or creator
+          const recipientID = this.ride.driver || this.ride.creator;
+          if (recipientID) {
+            const notificationData = {
+              msg: `${this.user.username} requested to join your ride to ${this.ride?.dropoffLocation?.name}`,
+              dateTime: Date.now(),
+              category: "Ride",
+            };
+            this.notificationService
+              .addNotification(recipientID, notificationData)
+              .subscribe();
+          }
+
+          this.userIsPending = true;
+          this.reInit();
+        },
+        (err) => {
+          this.toastr.error("Error sending request");
+        }
+      );
+  }
+
+  // Accept applicant rider
+  onAcceptRiderClick(riderId: string) {
+    this.rideService.acceptRider(this.ride?._id, riderId).subscribe(
+      (response) => {
+        this.toastr.success("Ride Request Approved!");
+        
+        // Notify rider
+        const notificationData = {
+          msg: `Your request to join the ride to ${this.ride?.dropoffLocation?.name} was approved!`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+          .addNotification(riderId, notificationData)
+          .subscribe();
+
+        // Refresh view
+        this.router.navigate(["/router"]);
+      },
+      (err) => {
+        this.toastr.error("Error accepting rider");
+      }
+    );
+  }
+
+  // Decline applicant rider
+  onDeclineRiderClick(riderId: string) {
+    this.rideService.declineRider(this.ride?._id, riderId).subscribe(
+      (response) => {
+        this.toastr.warning("Ride Request Declined");
+        
+        // Notify rider
+        const notificationData = {
+          msg: `Your request to join the ride to ${this.ride?.dropoffLocation?.name} was declined.`,
+          dateTime: Date.now(),
+          category: "Ride",
+        };
+        this.notificationService
+          .addNotification(riderId, notificationData)
+          .subscribe();
+
+        // Refresh view
+        this.router.navigate(["/router"]);
+      },
+      (err) => {
+        this.toastr.error("Error declining rider");
+      }
+    );
+  }
+
+  // Add a rider directly to the ride
   onJoinRideClick() {
     const pickupLocation = this.puLocation;
 
-    //if user is already driver, remove them from driver before adding as rider
     if (this.userIsDriver) {
       this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
         (response) => {
@@ -354,58 +398,22 @@ export class RideCardComponent implements OnInit {
           this.userBecameDriver = false;
           this.needsDriver = true;
           this.userCanDrive = true;
-
         },
         (error) => {
-          console.error("Error removing driver from ride:", error);
+          console.error("Error removing driver:", error);
         }
       );
     }
-
 
     this.rideService
       .registerRidertoRide(this.ride?._id, this.user?._id, pickupLocation)
       .subscribe(
         (response) => {
           this.toastr.success("Ride Joined");
-          const notificationData = {
-            msg: `You have joined the ride to ${this.ride?.dropoffLocation?.address}`,
-            dateTime: Date.now(),
-            category: "Ride",
-          };
-          this.notificationService
-              .addNotification(this.user._id, notificationData)
-              .subscribe(
-                () => {
-                  this.warning = "";
-                  this.loading = false;
-
-                  this.authService.refreshToken().subscribe(
-                    (refreshSuccess) => {
-                      this.authService.setToken(refreshSuccess.token);
-                      this.router.navigate(["/router"]);
-                    },
-                    (refreshError) => {
-                      console.error("Error refreshing token:", refreshError);
-                    }
-                  );                  
-                },
-                (notificationError) => {
-                  console.error(
-                    "Error adding notification:",
-                    notificationError
-                  );
-                  this.warning = "Error adding notification";
-                  this.loading = false;
-                }
-              );
-          //update button availability values
           this.userBecameRider = true;
           this.userIsRider = true;
           this.userCanJoin = false;
           this.userLeftRide = false;
-
-          //update rider count
           this.riderCount = this.ride?.riders?.length;
         },
         (err) => {
@@ -416,7 +424,7 @@ export class RideCardComponent implements OnInit {
     this.reInit();
   }
 
-  //Remove a rider from the ride (if they are a driver, they can't leave)
+  // Remove a rider from the ride
   onLeaveRideClick() {
     this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
       (response) => {
@@ -428,37 +436,12 @@ export class RideCardComponent implements OnInit {
         };
         this.notificationService
             .addNotification(this.user._id, notificationData)
-            .subscribe(
-              () => {
-                this.warning = "";
-                this.loading = false;
+            .subscribe();
 
-                this.authService.refreshToken().subscribe(
-                  (refreshSuccess) => {
-                    this.authService.setToken(refreshSuccess.token);
-                    this.router.navigate(["/router"]);
-                  },
-                  (refreshError) => {
-                    console.error("Error refreshing token:", refreshError);
-                  }
-                );                  
-              },
-              (notificationError) => {
-                console.error(
-                  "Error adding notification:",
-                  notificationError
-                );
-                this.warning = "Error adding notification";
-                this.loading = false;
-              }
-            );
-
-        //update button availability values
         this.userLeftRide = true;
         this.userIsRider = false;
         this.userBecameRider = false;
         this.userCanJoin = true;
-  
       },
       (err) => {
         console.log("❗");
@@ -467,19 +450,17 @@ export class RideCardComponent implements OnInit {
     this.reInit();
   }
 
-  //Add a driver to the ride
+  // Add a driver to the ride
   onDriverNeededClick() {
-    //if user is already rider, remove them from ride before adding as driver
     if (!this.userCanJoin) {
       this.rideService.rmRiderFromRide(this.ride?._id, this.user?._id).subscribe(
         (response) => {
           this.userIsRider = false;
           this.userBecameRider = false;
           this.userCanJoin = true;
-          
         },
         (error) => {
-          console.error("Error removing rider from ride:", error);
+          console.error("Error removing rider:", error);
         }
       );
     }
@@ -489,44 +470,10 @@ export class RideCardComponent implements OnInit {
       .subscribe(
         (response) => {
           this.toastr.success("Get Ready to Drive");
-          const notificationData = {
-            msg: `You offered to drive to: ${this.ride?.dropoffLocation?.address}`,
-            dateTime: Date.now(),
-            category: "Ride",
-          };
-          
-          //update button availability values
           this.userBecameDriver = true;
           this.needsDriver = false;
           this.userIsDriver = true;
           this.userCancelledDriveOffer = false;
-
-          this.notificationService
-              .addNotification(this.user._id, notificationData)
-              .subscribe(
-                () => {
-                  this.warning = "";
-                  this.loading = false;
-
-                  this.authService.refreshToken().subscribe(
-                    (refreshSuccess) => {
-                      this.authService.setToken(refreshSuccess.token);
-                      this.router.navigate(["/router"]);
-                    },
-                    (refreshError) => {
-                      console.error("Error refreshing token:", refreshError);
-                    }
-                  );                  
-                },
-                (notificationError) => {
-                  console.error(
-                    "Error adding notification:",
-                    notificationError
-                  );
-                  this.warning = "Error adding notification";
-                  this.loading = false;
-                }
-              );
         },
         (err) => {
           console.log("❗");
@@ -536,64 +483,23 @@ export class RideCardComponent implements OnInit {
     this.reInit();
   }
 
-  //Remove driver from ride (Cancel Drive Offer)
+  // Remove driver from ride (Cancel Drive Offer)
   onCancelDriveOfferClick() {
     this.rideService.rmDriverFromRide(this.ride?._id).subscribe(
       (response) => {
         this.toastr.error("Drive Offer Cancelled");
-          const notificationData = {
-            msg: `You decided to withdraw your drive offer`,
-            dateTime: Date.now(),
-            category: "Ride",
-          };
-          this.notificationService
-              .addNotification(this.user._id, notificationData)
-              .subscribe(
-                () => {
-                  this.warning = "";
-                  this.loading = false;
-
-                  this.authService.refreshToken().subscribe(
-                    (refreshSuccess) => {
-                      this.authService.setToken(refreshSuccess.token);
-                      this.router.navigate(["/router"]);
-                    },
-                    (refreshError) => {
-                      console.error("Error refreshing token:", refreshError);
-                    }
-                  );                  
-                },
-                (notificationError) => {
-                  console.error(
-                    "Error adding notification:",
-                    notificationError
-                  );
-                  this.warning = "Error adding notification";
-                  this.loading = false;
-                }
-              );
-        //reset button availability values
         this.userCancelledDriveOffer = true;
         this.needsDriver = true;
         this.userIsDriver = false;
         this.userBecameDriver = false;
 
-        //if user is creator, add them to the riders
         if (this.userIsCreator) {
           this.rideService
             .registerRidertoRide(this.ride?._id, this.user?._id, this.puLocation)
             .subscribe(
-              (response) => {
+              (res) => {
                 this.userBecameRider = true;
                 this.userIsRider = true;
-              },
-              (notificationError) => {
-                console.error(
-                  "Error adding notification:",
-                  notificationError
-                );
-                this.warning = "Error adding notification";
-                this.loading = false;
               }
             );
         }    
@@ -605,5 +511,4 @@ export class RideCardComponent implements OnInit {
 
     this.reInit();
   }
-
 }

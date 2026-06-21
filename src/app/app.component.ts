@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   fnotifs: string[] = this.notificationsService.notifications; // Array to store notifications
   hnn = this.notificationsService.hasNewNotification;  
   showNotifications = false;
+  isDarkMode = false;
 
   constructor(
     private router: Router,
@@ -118,7 +119,27 @@ export class AppComponent implements OnInit {
     }
   }
 
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add("dark-theme");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark-theme");
+      localStorage.setItem("theme", "light");
+    }
+  }
+
   ngOnInit(): void {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      this.isDarkMode = true;
+      document.body.classList.add("dark-theme");
+    } else {
+      this.isDarkMode = false;
+      document.body.classList.remove("dark-theme");
+    }
+
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {    
         

@@ -151,6 +151,53 @@ export class RideService {
     return new Observable();
   }
 
+  requestJoinRide(
+    rideId: any,
+    riderId: any,
+    pickupLocation: any
+  ): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      const riderData = {
+        riderID: riderId,
+        pickupLocation: pickupLocation,
+      };
+      return this.http.post<{ message: string }>(
+        `${environment.userAPIBase}/rides/${rideId}/request-join`,
+        { ride: rideId, newRider: riderData },
+        { headers }
+      );
+    }
+    return new Observable();
+  }
+
+  acceptRider(rideId: any, riderId: any): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.post<{ message: string }>(
+        `${environment.userAPIBase}/rides/${rideId}/accept-rider`,
+        { riderID: riderId },
+        { headers }
+      );
+    }
+    return new Observable();
+  }
+
+  declineRider(rideId: any, riderId: any): Observable<any> {
+    const token = this.auth.getToken();
+    if (token) {
+      const headers = { Authorization: `JWT ${token}` };
+      return this.http.post<{ message: string }>(
+        `${environment.userAPIBase}/rides/${rideId}/decline-rider`,
+        { riderID: riderId },
+        { headers }
+      );
+    }
+    return new Observable();
+  }
+
   registerRide(rideData: any): Observable<any> {
     const token = this.auth.getToken();
     if (token) {

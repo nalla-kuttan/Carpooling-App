@@ -1,7 +1,11 @@
 <div class="results-container">
-  <div *ngIf="loading">
-    <!-- Show loader when rides array is empty -->
-    <div class="loader"></div>
+  <div *ngIf="loading" class="skeleton-list">
+    <div class="skeleton-card" *ngFor="let i of [1,2,3]">
+      <div class="skeleton-line skeleton-title skeleton-shimmer"></div>
+      <div class="skeleton-line skeleton-text skeleton-shimmer"></div>
+      <div class="skeleton-line skeleton-text skeleton-shimmer" style="width: 80%;"></div>
+      <div class="skeleton-line skeleton-text skeleton-shimmer" style="width: 60%;"></div>
+    </div>
   </div>
   <!-- if no rides are available, instead display an error message -->
   <div class="form-error-msg" *ngIf="rides?.length == 0 && !loading">

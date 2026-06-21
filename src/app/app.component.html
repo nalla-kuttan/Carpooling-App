@@ -13,6 +13,11 @@
 
     <!-- ***************************************************************************** -->
 
+    <!-- Dark Mode Toggle Button -->
+    <button mat-icon-button (click)="toggleTheme()" style="margin-right: 8px; color: var(--text-main);" matTooltip="Toggle Dark/Light Mode">
+      <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+    </button>
+
     <div class="notification-icon">
       <fa-icon
         *ngIf="token != undefined"
