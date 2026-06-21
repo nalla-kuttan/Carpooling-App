@@ -14,7 +14,7 @@ export class MessageService {
   messages: string[] = [];
   room_id: any;
   isSubscribed = false;
-  socket = io("https://carpooling-api.onrender.com");
+  socket = io(environment.userAPIBase.replace(/\/api\/?$/, ""));
 
   constructor(private _http: HttpClient, private authService: AuthService) {
     this.socket.on("connect", () => {

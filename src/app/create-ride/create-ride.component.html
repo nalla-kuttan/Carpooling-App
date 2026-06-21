@@ -1,36 +1,52 @@
-<div class="container">
-  <h2 class="heading">Create Ride</h2>
-  <form (ngSubmit)="submitForm()" class="form">
-    <div class="form-group">
-      <label for="startLocation">Start Location:</label>
-      <input
-        type="text"
-        id="startLocation"
-        [(ngModel)]="startLocation"
-        name="startLocation"
-        required
-      />
-    </div>
-    <div class="form-group">
-      <label for="dropOffLocation">Drop-off Location:</label>
-      <input
-        type="text"
-        id="dropOffLocation"
-        [(ngModel)]="dropOffLocation"
-        name="dropOffLocation"
-        required
-      />
-    </div>
-    <div class="form-group">
-      <label for="dateTime">Date Time:</label>
-      <input
-        type="datetime-local"
-        id="dateTime"
-        [(ngModel)]="dateTime"
-        name="dateTime"
-        required
-      />
-    </div>
-    <button type="submit">Submit</button>
-  </form>
+<div class="create-ride-container">
+  <mat-card>
+    <mat-card-content>
+      <h2 class="heading">Offer a Ride</h2>
+      <p class="subtitle">Enter your route parameters below to list a new ride for the community.</p>
+      
+      <form (ngSubmit)="submitForm()" class="form">
+        <div class="form-group">
+          <label for="startLocation">Start Location</label>
+          <input
+            type="text"
+            id="startLocation"
+            [(ngModel)]="startLocation"
+            name="startLocation"
+            placeholder="Enter starting address..."
+            required
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="dropOffLocation">Drop-off Location</label>
+          <input
+            type="text"
+            id="dropOffLocation"
+            [(ngModel)]="dropOffLocation"
+            name="dropOffLocation"
+            placeholder="Enter destination Seneca campus..."
+            required
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="dateTime">Departure Date & Time</label>
+          <input
+            type="datetime-local"
+            id="dateTime"
+            [(ngModel)]="dateTime"
+            name="dateTime"
+            required
+          />
+        </div>
+        
+        <div class="actions">
+          <button mat-raised-button color="primary" type="submit" class="submit-button">
+            <mat-icon style="margin-right: 4px;">directions_car</mat-icon>
+            <span>Publish Ride Offer</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

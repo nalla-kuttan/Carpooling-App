@@ -1,142 +1,133 @@
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rides</title>
-  </head>
-  <body>
-    <div class="container">
-      <div class="form-container">
-        
-          <form (ngSubmit)="onSubmit()" [formGroup]="rideForm">
-            
-            <label for="pickup-location">Pickup Location:</label>
-            <input
-              #puLocation
-              type="text"
-              class="place-autocomplete"
-              formControlName = "pickupLocation"
-            />
-            <!-- Error message -->
-            <div
-              *ngIf="
-                rideForm.get('pickupLocation').invalid &&
-                (rideForm.get('pickupLocation').dirty || rideForm.get('pickupLocation').touched)
-              "
-              class="form-error-msg"
-            >
-              <div
-                *ngIf="
-                  rideForm.get('pickupLocation').errors.required || rideForm.get('pickupLocation').errors.invalidPlace
-                "
-              >
-                Please enter a valid pickup location within Ontario.
-              </div>
-            </div>
-
-            <hr>
-            
-            <label for="dropoff-location">Drop-off Location:</label>
-            <input
-              #doLocation
-              type="text"
-              class="place-autocomplete"
-              formControlName = "dropoffLocation"
-            />
-            <!-- Error message -->
-            <div
-              *ngIf="
-                rideForm.get('dropoffLocation').invalid &&
-                (rideForm.get('dropoffLocation').dirty || rideForm.get('dropoffLocation').touched)
-              "
-              class="form-error-msg"
-            >
-              Please enter a valid pickup location within Ontario.
-            </div>
-            <br />
-
-            <label for="date">Date:</label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              formControlName = "selectedDate"
-            />
-            <!-- Error Message -->
-            <div
-              *ngIf="
-                rideForm.get('selectedDate').invalid &&
-                (rideForm.get('selectedDate').dirty || rideForm.get('selectedDate').touched)
-              "
-              class="form-error-msg">Please enter a valid future date</div>
-            <br />
-
-
-            <label for="time">Arrival Time:</label>
-            <input
-              type="time"
-              id="time"
-              name="time"
-              formControlName = "selectedTime"
-            />
-            <!-- Error Message -->
-            <div
-              *ngIf="
-                rideForm.get('selectedTime').invalid &&
-                (rideForm.get('selectedTime').dirty || rideForm.get('selectedTime').touched)
-              "
-              class="form-error-msg">Please enter a valid future time
-            </div>
-            <br /><br />
-
-            <!-- Temporary Removal - waiting for further functionality -->
-            <!-- <label for="rider-driver">Rider/Driver:</label>
-            <input
-              type="text"
-              id="rider-driver"
-              name="rider-driver"
-              formControlName = "riderDriver"
-            /><br /><br />
-            -->
-            <div class="selector-holder">
-              <label for="match-selector">Use Interest & Class matching</label>
-              <input
-                type="checkbox"
-                id="match-selector"
-                name="match-selector"
-                [(ngModel)]="this.useMatchingCheck"
-                formControlName = "useMatching"
-                (click)="this.ridesListComponent.ngOnInit()" 
-              />
-            </div>
-            <div class="button-container">
-              <!-- Trigger onSearch when clicked -->
-              <button type="button" class="search-button" value="Search" (click)="onSearch()">
-                Search
-              </button>
-              <button
-                type="submit"
-                class="create-button"
-              >
-                Create New Ride
-              </button>
-            </div>
-            
-        </form>
-
-        <app-available-rides-list #ridesListComponent
-          [user]="user"
-          [useMatching]="useMatchingCheck" 
-          [puLocation]="puLocationInfo" 
-          [doLocation]="doLocationInfo"
-          [searchParams]="searchParams" 
-          (passLocation)="recvLocation($event)">
-        </app-available-rides-list>
-
+<div class="rides-dashboard-container">
+  <div class="search-and-results-panel">
+    <!-- Search Form -->
+    <form [formGroup]="rideForm" (ngSubmit)="onSubmit()" class="search-form glass-panel">
+      <h2 class="search-title">Find or Post a Ride</h2>
+      
+      <div class="form-field-group">
+        <label for="pickup-location">Pickup Location</label>
+        <input
+          #puLocation
+          id="pickup-location"
+          type="text"
+          class="place-autocomplete"
+          formControlName="pickupLocation"
+          placeholder="Enter pickup point in Ontario..."
+        />
+        <!-- Error message -->
+        <div
+          *ngIf="
+            rideForm.get('pickupLocation').invalid &&
+            (rideForm.get('pickupLocation').dirty || rideForm.get('pickupLocation').touched)
+          "
+          class="form-error-msg"
+        >
+          Please enter a valid pickup location within Ontario.
+        </div>
       </div>
 
-      <div class="map-container">
-        <app-map #map [pinLocation]="currPinLocation"></app-map>
+      <div class="form-field-group">
+        <label for="dropoff-location">Drop-off Location</label>
+        <input
+          #doLocation
+          id="dropoff-location"
+          type="text"
+          class="place-autocomplete"
+          formControlName="dropoffLocation"
+          placeholder="Enter drop-off campus..."
+        />
+        <!-- Error message -->
+        <div
+          *ngIf="
+            rideForm.get('dropoffLocation').invalid &&
+            (rideForm.get('dropoffLocation').dirty || rideForm.get('dropoffLocation').touched)
+          "
+          class="form-error-msg"
+        >
+          Please enter a valid drop-off location within Ontario.
+        </div>
       </div>
+
+      <div class="form-row-2col">
+        <div class="form-field-group">
+          <label for="date">Date</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            formControlName="selectedDate"
+          />
+          <div
+            *ngIf="
+              rideForm.get('selectedDate').invalid &&
+              (rideForm.get('selectedDate').dirty || rideForm.get('selectedDate').touched)
+            "
+            class="form-error-msg"
+          >
+            Please enter a future date.
+          </div>
+        </div>
+
+        <div class="form-field-group">
+          <label for="time">Arrival Time</label>
+          <input
+            type="time"
+            id="time"
+            name="time"
+            formControlName="selectedTime"
+          />
+          <div
+            *ngIf="
+              rideForm.get('selectedTime').invalid &&
+              (rideForm.get('selectedTime').dirty || rideForm.get('selectedTime').touched)
+            "
+            class="form-error-msg"
+          >
+            Please enter a future time.
+          </div>
+        </div>
+      </div>
+
+      <div class="selector-holder">
+        <input
+          type="checkbox"
+          id="match-selector"
+          name="match-selector"
+          [(ngModel)]="this.useMatchingCheck"
+          formControlName="useMatching"
+          (click)="this.ridesListComponent.ngOnInit()" 
+        />
+        <label for="match-selector">Use Interest & Class matching</label>
+      </div>
+
+      <div class="button-container">
+        <button type="button" class="search-button mat-raised-button" (click)="onSearch()">
+          <mat-icon>search</mat-icon>
+          <span>Search</span>
+        </button>
+        <button type="submit" class="create-button mat-raised-button" color="accent">
+          <mat-icon>add_circle_outline</mat-icon>
+          <span>Create Ride</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Available Rides List Component -->
+    <div class="results-list-wrapper glass-panel">
+      <h3 class="results-title">Available Rides</h3>
+      <app-available-rides-list #ridesListComponent
+        [user]="user"
+        [useMatching]="useMatchingCheck" 
+        [puLocation]="puLocationInfo" 
+        [doLocation]="doLocationInfo"
+        [searchParams]="searchParams" 
+        (passLocation)="recvLocation($event)">
+      </app-available-rides-list>
     </div>
-  </body>
-</html>
+  </div>
+
+  <!-- Map Display Panel -->
+  <div class="map-panel glass-panel">
+    <app-map #map [pinLocation]="currPinLocation"></app-map>
+  </div>
+</div>

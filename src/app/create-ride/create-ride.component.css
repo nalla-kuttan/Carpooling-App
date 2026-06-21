@@ -1,45 +1,76 @@
-.container {
+.create-ride-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  min-height: calc(100vh - 160px);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .heading {
-  text-align: center;
+  font-family: var(--font-headings);
+  font-size: 2.2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 2rem;
 }
 
 .form {
-  width: 400px;
-  padding: 20px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
+  text-align: left;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 1.5rem;
 }
 
-input {
+.form-group label {
+  font-family: var(--font-headings);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Custom styled inputs to match search design */
+.form-group input {
+  height: 42px;
+  padding: 0 14px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  box-sizing: border-box;
   width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
 }
 
-button {
-  display: block;
+.actions {
+  margin-top: 2rem;
+}
+
+.submit-button {
   width: 100%;
-  padding: 10px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

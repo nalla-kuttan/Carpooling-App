@@ -51,7 +51,7 @@ export class RideService {
       const headers = { Authorization: `JWT ${token}` };
       return this.http
         .get<{ message: String; _rides: [RideList] }>(
-          `${environment.userAPIBase}/userRides/:${riderId}`,
+          `${environment.userAPIBase}/userRides/${riderId}`,
           { headers }
         )
         .toPromise();

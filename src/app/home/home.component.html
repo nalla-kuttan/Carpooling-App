@@ -1,327 +1,229 @@
-<!-- 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    
-    <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
-    <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="../../lib/lightbox/css/lightbox.min.css" rel="stylesheet">  
-   
-</head> 
--->
-<!DOCTYPE html>
-<html>
-<head>
-  <!-- Other head elements -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script type="text/javascript" src="../../js/main.js"></script>
-</head>
-
-<body>
-
-<section id="home" class="home">   	
-
-
-
-	<img src="../../assets/images/mainimg2.jpg" alt="" class="home__img">
-
-    
-	
-
-	<div class="home__container container grid">
-		<div class="home__data">
-			<span class="home__data-subtitle">Ride. Connect.</span><br><br>
-			<span class="home__data-subtitle2">Contribute to</span><br><br>
-			<span class="home__data-subtitle3">Society</span>
-			<!-- <h1 class="home__data-title">Contribute to <br> Society</h1>			 -->
-		</div>
-    </div>
-	
-  <div class="wave wave1"></div>
-  <div class="wave wave2"></div>
-  <div class="wave wave3"></div>
-  
-  <section class="sec-2">
-    
-	<div class="container">
-		<h2 id="hiw" class="heading-2">How It Works</h2><br><br><br>
-		<div class="steps-container">
-		<div class="col3">
-			<div class="item">
-                <img src="../../assets/images/step1.png" alt="Step 1 Icon" class="step-icon">
-			<h3>Book in just 2 Tabs</h3><br>
-			<p>Experience the simplicity of booking a ride in just two easy steps. Choose your destination, pickup location and select your preferred time, and we'll take care of the rest.</p>
-			</div>
-		</div>
-		<div class="col3">
-			<div class="item">
-            <img src="../../assets/images/step2.png" alt="Step 2 Icon" class="step-icon">
-			<h3>Get a Driver</h3><br>
-			<p>Sit back, relax, and let our experienced drivers drop you safely and comfortably. Our team of professional drivers ensures a reliable and enjoyable ride every time. </p>
-			</div>
-		</div>
-		<div class="col3">
-			<div class="item">
-            <img src="../../assets/images/step3.png" alt="Step 3 Icon" class="step-icon">
-			<h3>Navigate Easily</h3><br>
-			<p>Stay connected and informed with real-time updates and notifications. Message riders and visualize your journey on the map and get a clear picture of your destination.</p>
-			</div>
-		</div>
-		<div class="col3">
-			<div class="item">
-            <img src="../../assets/images/step4.png" alt="Step 4 Icon" class="step-icon">
-			<h3>Arrive Safely</h3><br>
-			<p>Your safety is our top priority. From regular vehicle inspections to background checks on drivers, we go the extra mile to provide you with a worry-free travel experience.</p>
-			</div>
-		</div>
-		<div class="clearfix"></div>
+<section id="home" class="home">
+  <!-- Hero banner -->
+  <div class="hero-section">
+    <img src="../../assets/images/mainimg2.jpg" alt="Carpooling Hero" class="home__img">
+    <div class="hero-overlay"></div>
+    <div class="home__container container">
+      <div class="home__data">
+        <h1 class="hero-title">Ride. Connect.</h1>
+        <h2 class="hero-subtitle">Contribute to Society</h2>
+        <p class="hero-description">Join Seneca's premium carpooling community. Save money, reduce emissions, and meet fellow students.</p>
+        <div class="hero-actions">
+          <button mat-raised-button color="accent" routerLink="/rides">Find a Ride</button>
+          <button mat-raised-button color="primary" routerLink="/create-ride">Offer a Ride</button>
+        </div>
       </div>
-	</div>
-</section>	
+    </div>
+  </div>
 
-<section>
-	<div class="more-about reveal  fade-bottom">
-		<div class="container reveal  fade-bottom">
-		  <h1 style="text-align: center;
-		  vertical-align: middle;
-		  line-height: 90px;color: #04c799; ">Carpooling on everyday journeys is practical, economical and ecological.</h1>
-		  <br>
-		  <br>
-		  <br>
-		  <div class="row">
-	  
-			<div class="col-lg-6">
-			  <div class="section-heading">
-				<h2>A small gesture for you, a big step for the planet. </h2>
-			  </div>
-	  <br>
-			  <p>🌱 Did you know that the car occupancy rate is only 1.08 people per vehicle on short trips every day?  This means there are so many empty seats and wasted resources. 🌍 Transport is also the primary source of greenhouse gases, contributing to climate change. ⚠️</p>
+  <!-- How It Works -->
+  <section class="sec-2">
+    <div class="container">
+      <h2 id="hiw" class="heading-2">How It Works</h2>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon-wrapper">
+            <img src="../../assets/images/step1.png" alt="Step 1 Icon" class="step-icon">
+          </div>
+          <h3>Book in just 2 Taps</h3>
+          <p>Choose your destination, pick-up location, and preferred time. We will match you with the best route options.</p>
+        </div>
+        
+        <div class="step-card">
+          <div class="step-icon-wrapper">
+            <img src="../../assets/images/step2.png" alt="Step 2 Icon" class="step-icon">
+          </div>
+          <h3>Get a Driver</h3>
+          <p>Sit back, relax, and let our verified community drivers drop you safely and comfortably to Seneca Campus.</p>
+        </div>
 
-			  <p>But fear not! By carpooling, you become a superhero of sustainability, actively participating in the reduction of vehicles on the roads and CO2 emissions. 🚀 You save energy, reduce pollution, and make a positive impact on the environment.🌈</p>
-			</div>
-			<div class="col-lg-6 align-self-center">
-			  <div class="right-image"  style="  transition: all .5s;">
-				<img
-				  src="../../assets/images/allinonecar.gif"
-				  alt="">
-				  
-			  </div>
-			</div>
-		  </div>
-		  <br>
-		  <br>
-		  <br>
-		  <div class="row">
-			<div class="col-lg-6 align-self-center">
-			  <div class="left-image">
-				<img
-				  src="../../assets/images/carpGif.gif"
-				  alt="">
-				 
-			  </div>
-			</div>
-			<div class="col-lg-6">
-			  <div class="section-heading">
-				<h2>Save money on every trip. </h2>			
-			  </div>
+        <div class="step-card">
+          <div class="step-icon-wrapper">
+            <img src="../../assets/images/step3.png" alt="Step 3 Icon" class="step-icon">
+          </div>
+          <h3>Navigate Easily</h3>
+          <p>Stay connected with real-time updates. Message riders and visualize your journey live on the map view.</p>
+        </div>
 
-			  <p>Save money on every trip.💸 Driving every day, we know how costly it can be! From fuel expenses to insurance and maintenance costs, riding solo quickly becomes an expensive affair. But we've got the perfect solution for you!
-  By choosing carpooling, you'll not only reduce your travel expenses but also contribute to a greener planet.✨ Imagine sharing the costs and paying as little as 0.50 dt for a liter of gas. Not bad, huh?</p>
-
-  <p>Join our community today and witness the magic of cost-sharing. Say goodbye to expensive solo rides and hello to a more affordable and sustainable way of traveling. 🚗 Together, let's make every journey count!</p>
-	  		 	  
-			</div>
-		  </div>
-	  
-		</div>
-	  </div>
-</section>
-
- <!--==================== DISCOVER ====================-->
- <section class="discover section" id="discover">
-	<h2 class="section__title">Rides Available Now Near <br> Seneca Campuses</h2>
-	
-	<div class="discover__container container swiper-container">
-		<div class="swiper-wrapper">
-		
-			<div class="discover__card swiper-slide">
-				<a href="https://www.senecacollege.ca/campuses/newnhamlocation.html" target="_blank">
-				<img src="../../assets/images/Newnham.jpg" alt="" class="discover__img">
-				<div class="discover__data">
-					<h2 class="discover__title">Newnham</h2>
-					<span class="discover__description">24 tours available</span>
-				</div>
-				</a>
-			</div>
-
-			<div class="discover__card swiper-slide">
-				<a href="https://www.senecacollege.ca/campuses/seneca-international-academy.html" target="_blank">
-				<img src="../../assets/images/SIA.jpg" alt="" class="discover__img">
-				<div class="discover__data">
-					<h2 class="discover__title">SIA</h2>
-					<span class="discover__description">15 tours available</span>
-				</div>
-				</a>
-			</div>
-
-			<div class="discover__card swiper-slide">
-				<a href="https://www.senecacollege.ca/campuses/yorklocation.html" target="_blank">
-				<img src="../../assets/images/york.jpg" alt="" class="discover__img">
-				<div class="discover__data">
-					<h2 class="discover__title">York</h2>
-					<span class="discover__description">18 tours available</span>
-				</div>
-				</a>
-			</div>
-
-			<div class="discover__card swiper-slide">
-				<a href="https://www.senecacollege.ca/campuses/kinglocation.html" target="_blank">
-				<img src="../../assets/images/king.jpg" alt="" class="discover__img">
-				<div class="discover__data">
-					<h2 class="discover__title">King</h2>
-					<span class="discover__description">32 tours available</span>
-				</div>
-				</a>
-			</div>
-
-			<div class="discover__card swiper-slide">
-				<a href="https://www.senecacollege.ca/campuses/peterborough.html" target="_blank">
-				<img src="../../assets/images/peterborough.jpg" alt="" class="discover__img">
-				<div class="discover__data">
-					<h2 class="discover__title">Peterborough</h2>
-					<span class="discover__description">26 tours available</span>
-				</div>
-				</a>
-			</div>
-		</div>
-	</div>
-</section>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../../js/main.js"></script>
-
-
-<section class="faq">
-	<h1 class="heading" style="margin-top: -2rem; color: #00bfff;" id="faqh">FAQs</h1><br><br>
-	<div class="accordion">
-	  <div class="accordion-item">
-		<input type="checkbox" id="faq1" class="accordion-toggle">
-		<label for="faq1" class="accordion-title" id="labeltext"><span class="plus">+</span>How do I find carpool matches?</label>
-		<div class="accordion-content">
-		  <p>You can find carpool matches by using our platform's search feature, which matches you with drivers or passengers based on your location, destination, and preferred travel times.</p>
-		</div>
-	  </div>
-  
-	  <div class="accordion-item">
-		<input type="checkbox" id="faq2" class="accordion-toggle">
-		<label for="faq2" class="accordion-title"><span class="plus">+</span>How do I make payments for carpooling?</label>
-		<div class="accordion-content">
-		  <p>We use OneCard as our payment system, and riders can enjoy free rides until they reach a $15 limit. Once they hit the limit, they need to pay to request additional rides.</p>
-		</div>
-	  </div>
-  
-	  <div class="accordion-item">
-		<input type="checkbox" id="faq3" class="accordion-toggle">
-		<label for="faq3" class="accordion-title"><span class="plus">+</span>What happens if the driver cancels the carpool at the last minute?</label>
-		<div class="accordion-content">
-		  <p> In the event of a driver canceling the carpool at the last minute, we provide alternative arrangements or refunds to affected passengers.</p>
-		</div>
-	  </div>
-  
-	  <div class="accordion-item">
-		<input type="checkbox" id="faq4" class="accordion-toggle">
-		<label for="faq4" class="accordion-title"><span class="plus">+</span>What happens if there is a delay or change in my travel plans while carpooling?</label>
-		<div class="accordion-content">
-		  <p>If you experience a delay or need to change your travel plans while carpooling, please communicate promptly with your fellow carpoolers to coordinate any necessary adjustments.</p>
-		</div>
-	  </div>
-  
-	  <div class="accordion-item">
-		<input type="checkbox" id="faq5" class="accordion-toggle">
-		<label for="faq5" class="accordion-title"><span class="plus">+</span>Is carpooling safe?</label>
-		<div class="accordion-content">
-		  <p>We prioritize safety and conduct thorough driver screenings, including background checks, to ensure a safe carpooling experience.</p>
-		</div>
-	  </div>
-	
-
-	<div class="accordion-item">
-		<input type="checkbox" id="faq6" class="accordion-toggle">
-		<label for="faq6" class="accordion-title"><span class="plus">+</span>Can I bring additional luggage or equipment during a carpool?</label>
-		<div class="accordion-content">
-		  <p>You can discuss luggage or equipment arrangements with your carpool group, as allowances may vary depending on the space available in the vehicle.</p>
-		</div>
-	  </div>
-	</div>
-	<br><br>
-	
+        <div class="step-card">
+          <div class="step-icon-wrapper">
+            <img src="../../assets/images/step4.png" alt="Step 4 Icon" class="step-icon">
+          </div>
+          <h3>Arrive Safely</h3>
+          <p>Your safety is our top priority. From vehicle validations to driver ratings, we offer a secure journey.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
+  <!-- Ecological and Savings Details -->
+  <section class="ecological-info">
+    <div class="container">
+      <h1 class="eco-banner">Carpooling is practical, economical, and ecological.</h1>
+      
+      <div class="info-row">
+        <div class="info-text">
+          <div class="section-heading">
+            <h2>A small gesture, a big step for the planet</h2>
+          </div>
+          <p>🌱 Transport is the primary source of greenhouse gases, contributing to climate change. With a car occupancy rate of only 1.08 people per vehicle on short daily trips, there are millions of empty seats wasted every single day.</p>
+          <p>By carpooling, you actively participate in reducing vehicles on the roads, cutting down carbon emissions, saving energy, and making a positive impact on the environment.</p>
+        </div>
+        <div class="info-image">
+          <img src="../../assets/images/allinonecar.gif" alt="Eco Carpooling Animation">
+        </div>
+      </div>
+
+      <div class="info-row reverse">
+        <div class="info-image">
+          <img src="../../assets/images/carpGif.gif" alt="Savings Animation">
+        </div>
+        <div class="info-text">
+          <div class="section-heading">
+            <h2>Save money on every trip</h2>
+          </div>
+          <p>💸 Driving solo is an expensive affair. Between fuel expenses, insurance, and maintenance, costs add up fast. Carpooling offers the perfect solution to split travel expenses fairly.</p>
+          <p>Join our community today, discover the simplicity of cost-sharing, and make your daily commute more affordable and sustainable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seneca Campuses Available Rides -->
+  <section class="discover section" id="discover">
+    <h2 class="section__title">Rides Near Seneca Campuses</h2>
+    <div class="discover__container container">
+      <div class="campus-grid">
+        <div class="discover__card">
+          <a href="https://www.senecacollege.ca/campuses/newnhamlocation.html" target="_blank">
+            <img src="../../assets/images/Newnham.jpg" alt="Newnham Campus" class="discover__img">
+            <div class="discover__data">
+              <h3 class="discover__title">Newnham</h3>
+              <span class="discover__description">24 rides available</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="discover__card">
+          <a href="https://www.senecacollege.ca/campuses/seneca-international-academy.html" target="_blank">
+            <img src="../../assets/images/SIA.jpg" alt="SIA Campus" class="discover__img">
+            <div class="discover__data">
+              <h3 class="discover__title">SIA</h3>
+              <span class="discover__description">15 rides available</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="discover__card">
+          <a href="https://www.senecacollege.ca/campuses/yorklocation.html" target="_blank">
+            <img src="../../assets/images/york.jpg" alt="York Campus" class="discover__img">
+            <div class="discover__data">
+              <h3 class="discover__title">York</h3>
+              <span class="discover__description">18 rides available</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="discover__card">
+          <a href="https://www.senecacollege.ca/campuses/kinglocation.html" target="_blank">
+            <img src="../../assets/images/king.jpg" alt="King Campus" class="discover__img">
+            <div class="discover__data">
+              <h3 class="discover__title">King</h3>
+              <span class="discover__description">32 rides available</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion -->
+  <section class="faq">
+    <div class="container">
+      <h2 class="heading" id="faqh">Frequently Asked Questions</h2>
+      <div class="accordion">
+        <div class="accordion-item">
+          <input type="checkbox" id="faq1" class="accordion-toggle">
+          <label for="faq1" class="accordion-title"><span class="plus">+</span>How do I find carpool matches?</label>
+          <div class="accordion-content">
+            <p>You can find matches by searching with your pick-up and drop-off points. We match riders based on coordinate proximity, route overlaps, and shared classes/interests.</p>
+          </div>
+        </div>
+    
+        <div class="accordion-item">
+          <input type="checkbox" id="faq2" class="accordion-toggle">
+          <label for="faq2" class="accordion-title"><span class="plus">+</span>How do I make payments for carpooling?</label>
+          <div class="accordion-content">
+            <p>We use Seneca's OneCard. Riders enjoy free rides until they hit their limit, after which they can reload their balance to request more rides.</p>
+          </div>
+        </div>
+    
+        <div class="accordion-item">
+          <input type="checkbox" id="faq3" class="accordion-toggle">
+          <label for="faq3" class="accordion-title"><span class="plus">+</span>What happens if a driver cancels at the last minute?</label>
+          <div class="accordion-content">
+            <p>In case of cancellation, you will be notified immediately and we will suggest alternative matched rides for your travel window.</p>
+          </div>
+        </div>
+    
+        <div class="accordion-item">
+          <input type="checkbox" id="faq4" class="accordion-toggle">
+          <label for="faq4" class="accordion-title"><span class="plus">+</span>How do I update my travel timing?</label>
+          <div class="accordion-content">
+            <p>You can adjust ride preferences in your account panel or coordinate directly using the integrated real-time room chat with your driver.</p>
+          </div>
+        </div>
+    
+        <div class="accordion-item">
+          <input type="checkbox" id="faq5" class="accordion-toggle">
+          <label for="faq5" class="accordion-title"><span class="plus">+</span>Is carpooling safe?</label>
+          <div class="accordion-content">
+            <p>Absolutely. We restrict registrations to verified students and staff, and all members are subject to rating reviews.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer class="footer" id="footer">
-	<div class="container">
-	 <div class="row">
-	   <div class="footer-col">
-		 <h4>company</h4>
-		 <ul>
-		   <li><a href="#">About us</a></li>
-		   <li><a href="#">Terms & Conditions</a></li>
-		   <li><a href="#">privacy policy</a></li>
-		   <li><a href="#">affiliate program</a></li>
-		 </ul>
-	   </div>
-	   <div class="footer-col">
-		 <h4>Services</h4>
-		 <ul>
-		   <li><a href="#">Ride Booking</a></li>
-		   <li><a href="#">Payment Options</a></li>
-		   <li><a href="#">Report Issue</a></li>
-		   <li><a href="#">Ride Status</a></li>
-		   <li><a href="#">Post Ride</a></li>
-		 </ul>
-	   </div>
-	   <div class="footer-col">
-		 <h4>Contact</h4>
-		 <ul>
-		   <li><a href="#">Support</a></li>
-		   <li><a href="#">Cancellations</a></li>
-		   <li><a href="#">Business Inquiries</a></li>
-		   <li><a href="#">Offers</a></li>
-		 </ul>
-	   </div>
-	   <div class="footer-col">
-		 <h4>follow us</h4>
-		 <div class="social-links">
-		   <a href="#"><i class="fab fa-facebook-f"></i></a>
-		   <a href="#"><i class="fab fa-twitter"></i></a>
-		   <a href="#"><i class="fab fa-instagram"></i></a>
-		   <a href="#"><i class="fab fa-linkedin-in"></i></a>
-		 </div>
-	   </div>
-	   <div class="row">
-		<div class="col-md-12 text-left" id="boc"><br><br>
-		  <p>&copy; 2023 Carpooling Innovation by PRJ TEAM-01. All rights reserved.</p>
-		</div>
-	  </div>
-	 </div>
-	</div>
- </footer>
-
-  
-
+    <div class="container">
+      <div class="footer-row">
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#">Find a Ride</a></li>
+            <li><a href="#">Offer a Ride</a></li>
+            <li><a href="#">Report Issue</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Carpooling Innovation by PRJ TEAM-01. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 </section>
-
-
-</body>
-</html>
-
-

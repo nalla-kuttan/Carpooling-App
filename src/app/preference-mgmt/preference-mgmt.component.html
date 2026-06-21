@@ -67,59 +67,95 @@
     <p class="status-message">{{ updateStatus }}</p>
   </div>
 </div> -->
-<div class="container">
-  <div class="left-panel">
-    <div class="add-section">
-      <h2>Add Class</h2>
-      <div>
+<div class="preferences-dashboard">
+  <!-- Add Classes Card -->
+  <mat-card class="pref-card">
+    <mat-card-content>
+      <div class="pref-header">
+        <mat-icon class="pref-icon">school</mat-icon>
+        <h2>My Classes</h2>
+      </div>
+      <p class="subtitle">Add your current courses to find matching classmates for rides.</p>
+      
+      <div class="add-section-row">
         <select class="custom-select" [(ngModel)]="selectedClass">
           <option value="" disabled selected>Select a class</option>
           <option *ngFor="let classItem of availableClasses" [value]="classItem">{{ classItem }}</option>
-        </select> &nbsp;&nbsp;&nbsp;
-        <button class="btn custom-button" (click)="addClass()">Add Class</button>
-        <p class="error-message" *ngIf="isClassFieldEmpty">Please select a class.</p>
+        </select>
+        <button mat-raised-button color="primary" (click)="addClass()" class="add-button">
+          <mat-icon>add</mat-icon>
+          <span>Add</span>
+        </button>
       </div>
-    </div>
-    <br />
-    <div class="table-container">
-      <table class="table table-hover" *ngIf="user.classes.length > 0">
-        <tr *ngFor="let classItem of user.classes; let i = index">
-          <td>{{ classItem }}</td>
-          <td><button class="custom-butt" (click)="removeClass(i)">Remove</button></td>
-        </tr>
-      </table>
-      <div class="table-outline" *ngIf="user.classes.length === 0"></div>
-    </div>
-  </div>
+      <p class="error-message" *ngIf="isClassFieldEmpty">Please select a class.</p>
 
-  <div class="middle-panel">
-    <div class="add-section">
-      <h2>Add Interest</h2>
-      <div>
+      <div class="pref-list-container">
+        <div class="empty-state" *ngIf="user.classes.length === 0">
+          <p>No classes added yet.</p>
+        </div>
+        <ul class="pref-list" *ngIf="user.classes.length > 0">
+          <li *ngFor="let classItem of user.classes; let i = index">
+            <span class="pref-name">{{ classItem }}</span>
+            <button class="remove-btn" (click)="removeClass(i)" title="Remove class">
+              <mat-icon>close</mat-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Add Interests Card -->
+  <mat-card class="pref-card">
+    <mat-card-content>
+      <div class="pref-header">
+        <mat-icon class="pref-icon">favorite_border</mat-icon>
+        <h2>My Interests</h2>
+      </div>
+      <p class="subtitle">Share your hobbies to ride with students who share your interests.</p>
+      
+      <div class="add-section-row">
         <select class="custom-select" [(ngModel)]="selectedInterest">
           <option value="" disabled selected>Select an interest</option>
           <option *ngFor="let interest of availableInterests" [value]="interest">{{ interest }}</option>
-        </select>&nbsp;&nbsp;&nbsp;
-        <button class="btn custom-button" (click)="addInterest()">Add Interest</button>
-        <p class="error-message" *ngIf="isInterestFieldEmpty">Please select an interest.</p>
+        </select>
+        <button mat-raised-button color="primary" (click)="addInterest()" class="add-button">
+          <mat-icon>add</mat-icon>
+          <span>Add</span>
+        </button>
       </div>
-    </div>
-    <br />
-    <div class="table-container">
-      <table class="table table-hover" *ngIf="user.interests.length > 0">
-        <tr *ngFor="let interest of user.interests; let i = index">
-          <td>{{ interest }}</td>
-          <td><button class="custom-butt" (click)="removeInterest(i)">Remove</button></td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <div class="right-panel">
-    <button mat-raised-button color="accent" type="submit" class="btn btn-primary" (click)="onSubmit()">
-      <mat-icon>save</mat-icon>
-      <span>&nbsp;Save</span>
-    </button>
-    <p class="status-message">{{ updateStatus }}</p>
-  </div>
+      <p class="error-message" *ngIf="isInterestFieldEmpty">Please select an interest.</p>
+
+      <div class="pref-list-container">
+        <div class="empty-state" *ngIf="user.interests.length === 0">
+          <p>No interests added yet.</p>
+        </div>
+        <ul class="pref-list" *ngIf="user.interests.length > 0">
+          <li *ngFor="let interest of user.interests; let i = index">
+            <span class="pref-name">{{ interest }}</span>
+            <button class="remove-btn" (click)="removeInterest(i)" title="Remove interest">
+              <mat-icon>close</mat-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Save panel Card -->
+  <mat-card class="save-card">
+    <mat-card-content>
+      <div class="save-content">
+        <mat-icon class="save-icon">verified_user</mat-icon>
+        <h3>Save Settings</h3>
+        <p>Ensure your profile information and matching parameters are updated correctly.</p>
+        <button mat-raised-button color="accent" class="save-button" (click)="onSubmit()">
+          <mat-icon>save</mat-icon>
+          <span>Save Preferences</span>
+        </button>
+        <p class="status-message" *ngIf="updateStatus">{{ updateStatus }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 

@@ -1,61 +1,75 @@
-<mat-card>
-  <mat-card-content>
-    <form (ngSubmit)="onSubmit()">
-      <h2>Log In</h2>
-      <mat-error *ngIf="warning != null">{{ warning }}</mat-error
-      ><br />
-      <mat-form-field class="full-width-input">
-        <input
-          matInput
-          placeholder="Email"
-          name="email"
-          [(ngModel)]="user.email"
-          required
-          autofocus
-        />
-        <mat-error>Please provide a valid email</mat-error> </mat-form-field
-      ><br />
-      <mat-form-field class="full-width-input">
-        <input
-          matInput
-          type="password"
-          placeholder="Password"
-          name="password"
-          [(ngModel)]="user.password"
-          required
-        />
-        <mat-error>Please provide a valid password</mat-error> </mat-form-field
-      ><br />
-      <button
-        mat-raised-button
-        color="accent"
-        type="submit"
-        *ngIf="loading === false"
-      >
-        <mat-icon>login</mat-icon>
-        <span>&nbsp;&nbsp;&nbsp;Login</span>
-      </button>
-      <button
-        *ngIf="loading"
-        [disabled]="loading"
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="loading"
-      >
-        <mat-icon>account_box</mat-icon>
-        <span>&nbsp;&nbsp;&nbsp;Processing Request</span>
-      </button>
-      &nbsp;&nbsp;
-      <button
-        mat-raised-button
-        color="primary"
-        routerLink="/register"
-        routerLinkActive="active"
-      >
-        <mat-icon>account_box</mat-icon>
-        <span>&nbsp;&nbsp;&nbsp;Register</span>
-      </button>
-    </form>
-  </mat-card-content>
-</mat-card>
+<div class="login-container">
+  <mat-card>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()">
+        <h2>Log In</h2>
+        <p class="subtitle">Welcome back! Sign in to find or share a ride.</p>
+        
+        <div class="warning-banner" *ngIf="warning != null">
+          <mat-icon style="vertical-align: middle; font-size: 18px; width: 18px; height: 18px; margin-right: 4px;">warning</mat-icon>
+          <span>{{ warning }}</span>
+        </div>
+
+        <mat-form-field class="full-width-input" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="name@example.com"
+            name="email"
+            [(ngModel)]="user.email"
+            required
+            autofocus
+          />
+          <mat-error>Please provide a valid email</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width-input" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="Enter password"
+            name="password"
+            [(ngModel)]="user.password"
+            required
+          />
+          <mat-error>Please provide a valid password</mat-error>
+        </mat-form-field>
+
+        <div class="actions">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            *ngIf="loading === false"
+          >
+            <mat-icon>login</mat-icon>
+            <span>Login</span>
+          </button>
+          
+          <button
+            *ngIf="loading"
+            [disabled]="loading"
+            mat-raised-button
+            color="primary"
+            type="submit"
+          >
+            <mat-icon>autorenew</mat-icon>
+            <span>Processing...</span>
+          </button>
+          
+          <button
+            mat-raised-button
+            color="accent"
+            routerLink="/register"
+            routerLinkActive="active"
+            type="button"
+          >
+            <mat-icon>person_add</mat-icon>
+            <span>Register</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

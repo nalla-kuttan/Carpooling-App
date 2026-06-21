@@ -1,140 +1,192 @@
-.container {
+.rides-dashboard-container {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 1em;
-  flex-direction: row;
-  flex-grow: 1; /* Allow the container to grow and take up available space */
-  flex-wrap: wrap;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.form-container {
-  margin: 1em;
-  margin-top: 0;
-  /* border-color: #ccc; */
-  border-radius: 5px;
-  padding: 1em;
-  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
-  display: flex;
-  flex-direction: row;
-  /* flex-grow: 1; Allow the form-container to grow and take up available space */
-  flex: 1;
-  flex-wrap: wrap;
-  height: 57em;
-  min-width: 250px;
-}
-
-.map-container {
-  width: 60%; 
-  height: 400px; /* Adjust the height as desired */
-}
-
-form {
-  background-color: #f2f2f2;
-  padding: 1.5em;
-  border-radius: 5px;  
-  margin-right: 1em;
+.search-and-results-panel {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  /* max-height: 50%; */
-  min-width: 40%;
-  align-self: stretch;
+  gap: 20px;
+  width: 440px;
+  flex-shrink: 0;
 }
 
-app-available-rides-list {
-  align-self: stretch;
-  max-height: 100%;
-  overflow-y: auto;
-  max-width: 30em;
-  flex: 1;
+.search-form {
+  padding: 1.8rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.search-title {
+  font-family: var(--font-headings);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 4px;
 }
 
-input[type="text"],
+.form-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field-group label {
+  font-family: var(--font-headings);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Custom Styled Inputs for Glassmorphic sidebar */
+.place-autocomplete,
 input[type="date"],
-input[type="time"],
-select {
+input[type="time"] {
+  height: 42px;
+  padding: 0 14px;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  box-sizing: border-box;
   width: 100%;
-  padding: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
 }
 
-button {
-  display: block;
-  width: 100%;
-  padding: .5em 1em;
-  background-color: rgb(63, 81, 181);
-  color: #fff;
-  border: none;
-  border-radius: 3px;
+.form-row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.selector-holder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding-bottom: 4px;
+}
+
+.selector-holder input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color);
   cursor: pointer;
 }
 
+.selector-holder label {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
 
 .button-container {
   display: flex;
-  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .search-button,
 .create-button {
   flex: 1;
-  margin-right: 10px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
-.form-error-msg{
-  color: red;
-  font-size: 12px;
+.search-button {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.search-button:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+.create-button {
+  background-color: var(--secondary-color) !important;
+  color: white !important;
+}
+
+.create-button:hover {
+  background-color: var(--secondary-hover) !important;
+}
+
+.form-error-msg {
+  color: #ef4444;
+  font-size: 11px;
   margin-top: 2px;
-  margin-bottom: 0;
 }
 
-.selector-holder {
+/* Results panel styles */
+.results-list-wrapper {
+  padding: 1.5rem !important;
+  flex: 1;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: left;
-  margin-bottom: .2em;
-}
-.selector-holder label{
-  font-size: 12px;
-  margin-bottom: 0;
+  flex-direction: column;
+  min-height: 380px;
 }
 
-button.search-button {
-  background-color: #ff3333;
+.results-title {
+  font-family: var(--font-headings);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 16px;
 }
 
-button.create-button {
-  background-color: rgb(63, 81, 181);
-}
-button.create-button:hover {
-  background-color: rgb(84, 104, 206);
-}
-
-input.ng-touched.ng-invalid {
-  border: red 1px solid;
+app-available-rides-list {
+  flex: 1;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
-button:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 2, 12, 0.2);
+/* Map Display Panel */
+.map-panel {
+  flex: 1;
+  padding: 0 !important; /* Let map take full width of container card */
+  overflow: hidden;
+  height: auto;
+  min-height: 600px;
+  align-self: stretch;
 }
 
-hr {
-  border: 0;
-  height: 1px;
-  background-color: #ccc;
-  margin: 1em 0;
+app-map {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-@media (max-width: 395px ) {
-  .map-container {
-    visibility: hidden;
+/* Responsive queries */
+@media (max-width: 992px) {
+  .rides-dashboard-container {
+    flex-direction: column;
+  }
+  .search-and-results-panel {
+    width: 100%;
+  }
+  .map-panel {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-row-2col {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .button-container {
+    flex-direction: column;
+    gap: 8px;
   }
 }

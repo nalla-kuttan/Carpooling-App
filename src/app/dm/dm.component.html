@@ -1,70 +1,97 @@
-<head>
-    <title>Chat Component</title>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<div class="container">
-    <div class="card" *ngIf="userList.length !== 0">
-      <div class="card-body row">
-        <div class="col-4" style="max-height: 500px">
-          <ul class="list-unstyled mt-2 mb-0 h-100 overflow-auto">
-            <ng-container *ngFor="let users of userList">
-              <li class="border border-bottom justify-content-evenly p-2 rounded text-center"
-                *ngIf="users._id != user._id" (click)="switchUser(users)">
-                <span class="m-2">{{ users.username }} <span style="color: grey; font-size: xx-small;">{{ users.firstName }}</span></span>
-              </li>
-            </ng-container>
-          </ul>
-        </div>
-        <ng-container *ngIf="isMessageContainer">
-          <div class="col-8">
-            <h2 class="card-title row">{{ TitleName }}</h2>
-            <div #messageContainer class="card-text" style="
-                max-height: 500px;
-                width: 100%;
-                overflow-y: auto;
-                height: 400px;
-                overflow-x: hidden;
-              ">
-              <ng-container *ngIf="messageList.length === 0; else messagesContainer">
-                <div class="text-center">{{ isLoadingMessage }}</div>
-              </ng-container>
-              <ng-template #messagesContainer>
-                <div class="row" *ngFor="let message of messageList">
-                  <ng-container *ngIf="message?.senderId == user._id">
-                    <div class="d-flex justify-content-end text-end">
-                      <div class="rounded" style="min-width: 200px; min-height: 100px">
-                        <span class="title-name d-grid p-3">{{ "You" }}</span>
-                        <p class="d-inline right">
-                          {{ message?.message }}
-                        </p>
-                      </div>
-                    </div>
-                  </ng-container>
-  
-                  <ng-container *ngIf="message?.senderId != user._id">
-                    <div class="d-flex justify-content-start text-start">
-                      <div class="rounded" style="min-width: 200px; min-height: 100px">
-                        <span class="title-name d-grid p-3">{{
-                          message?.senderName
-                          }}</span>
-                        <p class="d-inline left p-3">
-                          {{ message?.message }}
-                        </p>
-                      </div>
-                    </div>
-                  </ng-container>
-                </div>
-              </ng-template>
+<div class="dm-wrapper">
+  <div class="dm-card glass-panel" *ngIf="userList.length !== 0">
+    <!-- User sidebar selection -->
+    <div class="dm-sidebar">
+      <div class="sidebar-header">
+        <mat-icon class="sidebar-icon">people</mat-icon>
+        <h3>Direct Messages</h3>
+      </div>
+      <ul class="user-list">
+        <ng-container *ngFor="let u of userList">
+          <li 
+            *ngIf="u._id != user._id" 
+            (click)="switchUser(u)"
+            class="user-item"
+            [ngClass]="{'active': u._id === receiver?._id}"
+          >
+            <div class="user-avatar">
+              {{ u.firstName ? u.firstName.substring(0,1).toUpperCase() : u.username.substring(0,1).toUpperCase() }}
             </div>
-  
-            <div class="d-flex justify-content-end mx-5">
-              <input class="col-10" [(ngModel)]="newMessage" placeholder="Enter Message....." (keydown.enter)="sendMessage()"/>
-              <span class="p-3" (click)="sendMessage()"><i class="fa fa-send" style="color: #3f51b5; font-size: large;"></i></span>
+            <div class="user-info">
+              <span class="user-name">{{ u.username }}</span>
+              <span class="user-realname">{{ u.firstName }} {{ u.lastName }}</span>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+
+    <!-- Active Chat pane -->
+    <div class="dm-main">
+      <ng-container *ngIf="isMessageContainer; else noActiveChat">
+        <!-- Chat header -->
+        <div class="chat-header">
+          <div class="chat-header-info">
+            <div class="user-avatar active-avatar">
+              {{ TitleName ? TitleName.substring(0,1).toUpperCase() : '?' }}
+            </div>
+            <div>
+              <h2>{{ TitleName }}</h2>
+              <p class="subtitle">Direct Conversation</p>
             </div>
           </div>
-        </ng-container>
-      </div>
+        </div>
+
+        <!-- Chat history -->
+        <div #messageContainer class="chat-body">
+          <ng-container *ngIf="messageList.length === 0; else messagesContainer">
+            <div class="chat-empty-state">
+              <mat-icon class="empty-icon">chat</mat-icon>
+              <p>{{ isLoadingMessage }}</p>
+            </div>
+          </ng-container>
+          
+          <ng-template #messagesContainer>
+            <div class="messages-list">
+              <div 
+                *ngFor="let message of messageList" 
+                class="message-row"
+                [ngClass]="{'message-sent': message?.senderId == user._id, 'message-received': message?.senderId != user._id}"
+              >
+                <div class="message-bubble">
+                  <span class="message-sender" *ngIf="message?.senderId != user._id">{{ message?.senderName }}</span>
+                  <span class="message-sender" *ngIf="message?.senderId == user._id">You</span>
+                  <p class="message-text">{{ message?.message }}</p>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Chat footer -->
+        <div class="chat-footer">
+          <div class="input-container">
+            <input
+              [(ngModel)]="newMessage"
+              placeholder="Type your message here..."
+              (keydown.enter)="sendMessage()"
+              class="message-input"
+            />
+            <button (click)="sendMessage()" class="send-button mat-raised-button" color="primary">
+              <mat-icon>send</mat-icon>
+              <span>Send</span>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noActiveChat>
+        <div class="no-chat-state">
+          <mat-icon class="no-chat-icon">forum</mat-icon>
+          <h3>Start a conversation</h3>
+          <p>Select a user from the panel on the left to start direct messaging.</p>
+        </div>
+      </ng-template>
     </div>
   </div>
+</div>

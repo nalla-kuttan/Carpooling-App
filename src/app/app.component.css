@@ -1,74 +1,97 @@
+/* Main layout structures */
 h1 {
   margin: 0;
+  font-family: var(--font-headings);
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 p {
   margin: 0;
 }
 
+/* Bell and Notification Dot styling */
 .notification-icon {
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.notification-icon:hover {
+  background-color: rgba(13, 148, 136, 0.08);
+  transform: scale(1.05);
 }
 
 .notification-dot {
   position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 10px;
-  height: 10px;
-  background-color: red;
+  top: 6px;
+  right: 6px;
+  width: 9px;
+  height: 9px;
+  background-color: #ef4444; /* tailwind red-500 */
   border-radius: 50%;
-  z-index: 1; /* Ensure the red dot appears on top of the notification bell icon */
+  border: 2px solid white;
+  z-index: 5;
+  box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  animation: pulse 2s infinite;
 }
 
-.highlighted {
-  background-color: rgb(248, 248, 93); /* Change the background color to yellow or any other color of your choice */
-  animation: highlight 2s linear; /* Apply the highlight animation for 2 seconds */
-}
-
-.notification-cross {
-  /* Add some styles to make it look like a button */
-  padding: 9px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Add transform transition */
-  background: none;
-}
-
-.notification-cross:hover {
-  /* Add a background color on hover (optional) */
-  background-color: #f5f5f5;
-  transform: scale(1.05);
-}
-
-@keyframes highlight {
-  from {
-    background-color: rgb(243, 243, 94); /* Start with the highlight color */
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
   }
-  to {
-    background-color: transparent; /* Gradually transition to transparent (no highlight) */
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
   }
 }
 
+#topbell {
+  font-size: 19px;
+  color: var(--text-main);
+  transition: color var(--transition-fast);
+}
+
+.notification-icon:hover #topbell {
+  color: var(--primary-color);
+}
+
+/* Glassmorphic Floating Notifications Panel */
 .notifications-menu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   right: 0;
-  width: 300px;
-  max-height: 200px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  width: 320px;
+  max-height: 400px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-md);
   overflow-y: auto;
-  word-wrap: break-word;
+  z-index: 100;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 576px) {
-  /* Adjust the width for smaller screens, like iPhones */
   .notifications-menu {
-    width: 250px;
+    width: 280px;
+    right: -40px;
   }
 }
 
@@ -76,128 +99,110 @@ p {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .notification-item {
-  cursor: pointer;
   display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
-.notification-icon {
+.notification-item:hover {
+  background: rgba(13, 148, 136, 0.05);
+  border-color: rgba(13, 148, 136, 0.1);
+}
+
+.highlighted {
+  animation: highlight 3s ease-out;
+}
+
+@keyframes highlight {
+  0% {
+    background-color: rgba(253, 224, 71, 0.3); /* Bright yellow glow */
+    border-color: rgba(253, 224, 71, 0.5);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
+.notification-cross {
+  font-size: 11px;
+  color: var(--text-muted);
   cursor: pointer;
-  margin-right: 10px;
-  font-size: 13px;
-  color: #333;
+  padding: 4px;
+  border-radius: 50%;
+  margin-top: 2px;
+  margin-right: 8px;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.notification-cross:hover {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.08);
 }
 
 .notification-details {
   flex: 1;
-  max-width: 200px;
-  word-wrap: break-word;
 }
 
 .notification-title {
   margin: 0;
-  font-size: 14px;
-  font-weight: bold;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text-main);
 }
 
-.notification-message {
-  margin: 0;
-  font-size: 12px;
-  color: #666;
-}
-
-#topbell{
-  font-size: 17px;
-  color:antiquewhite;
-}
-
-/* *********************************************************************** */
-
-/* Add a pointer cursor to indicate the clickable area */
-.notification-icon, .notification-item {
-  cursor: pointer;
-}
-
-/* Remove default focus outline */
-.notification-icon:focus, .notification-item:focus {
-  outline: none;
-}
-
-/* Add a subtle hover effect */
-.notification-icon:hover, .notification-item:hover {
-  /* box-shadow: none; */  
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 1px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Style the icons as buttons */
-.notification-icon {
-  padding: 5px;
-  border-radius: 100%; /* Make the icon container circular */
-  transition: background-color 0.3s ease;
-  /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); */
-}
-
-/* Adjust the cross icon style to make it more button-like */
-.notification-icon .faTimes {
-  font-size: 12px;
-  color: #999;
-}
-
-/* Make the bell icon and cross icon in the notification item smaller to fit the design */
-.notification-item .faTimes {
-  font-size: 12px;
-}
-
-/* Style the "Clear All" button */
 .clear-notifications-button {
-  background-color: transparent;
-  border: none;
-  font-size: 14px;
-  color: #0078d4;
-  cursor: pointer;
-  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+  background-color: transparent !important;
+  font-family: var(--font-headings);
+  font-size: 13px !important;
+  color: #ef4444 !important;
+  margin-top: 12px;
+  border-radius: var(--radius-sm) !important;
+  transition: background-color var(--transition-fast), color var(--transition-fast) !important;
 }
-
-/* *********************************************************************** */
-
 
 .clear-notifications-button:hover {
-  color:#fff; 
-  background-color: #e61728;
-} 
-
- 
-
-/* 
-@media only screen and (max-width: 600px) {
-  .clear-notifications-button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
+  background-color: rgba(239, 68, 68, 0.08) !important;
+  color: #ef4444 !important;
 }
 
-
-@media only screen and (min-width: 600px) {
-  .clear-notifications-button {
-    font-size: 16px;
-    padding: 10px 20px;
-  }
+.notifications-menu div:has(> p) {
+  padding: 24px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: italic;
 }
 
+/* User Account Button & Dropdown override */
+.mat-toolbar button[mat-button] {
+  border-radius: 99px !important;
+  padding: 4px 16px !important;
+  font-family: var(--font-headings);
+  color: var(--text-main);
+  background: rgba(13, 148, 136, 0.05);
+  transition: background-color var(--transition-fast);
+}
 
-@media only screen and (min-width: 992px) {
-  .clear-notifications-button {
-    font-size: 18px;
-    padding: 12px 24px;
-  }
-} */
+.mat-toolbar button[mat-button]:hover {
+  background: rgba(13, 148, 136, 0.1);
+}
 
-
-
+.mat-toolbar button[mat-button] mat-icon {
+  margin-right: 4px;
+  color: var(--primary-color);
+}

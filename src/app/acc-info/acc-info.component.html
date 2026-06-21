@@ -1,10 +1,44 @@
-<div *ngIf="user" class="account-info">
-  <h1>{{ user.firstName }} {{ user.lastName }}</h1>
-  <p>Username: {{ user.username }}</p>
-  <p>Email: {{ user.email }}</p>
-  <p>Phone: {{ user.phone }}</p>
-  <button routerLink="/update" mat-raised-button color="accent">
-    <mat-icon>save</mat-icon>
-    <span>&nbsp;&nbsp;Update</span>
-  </button>
+<div class="profile-container" *ngIf="user">
+  <mat-card>
+    <mat-card-content>
+      <div class="avatar-large">
+        {{ user.firstName ? user.firstName.substring(0,1).toUpperCase() : '?' }}
+      </div>
+      <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+      <p class="subtitle">Seneca Carpool Member</p>
+      
+      <div class="info-list">
+        <div class="info-item">
+          <mat-icon>person</mat-icon>
+          <div>
+            <span class="info-label">Username</span>
+            <span class="info-val">{{ user.username }}</span>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <mat-icon>email</mat-icon>
+          <div>
+            <span class="info-label">Email Address</span>
+            <span class="info-val">{{ user.email }}</span>
+          </div>
+        </div>
+
+        <div class="info-item" *ngIf="user.phone">
+          <mat-icon>phone</mat-icon>
+          <div>
+            <span class="info-label">Phone Number</span>
+            <span class="info-val">{{ user.phone }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button routerLink="/update" mat-raised-button color="primary">
+          <mat-icon>edit</mat-icon>
+          <span>Edit Profile</span>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

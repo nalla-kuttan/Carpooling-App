@@ -1,75 +1,56 @@
-<head>
-  <title>Chat Component</title>
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<div class="container">
-
-      <div class="col-8">
-        <h2 class="card-title row">{{ rideDetails.dropoffLocation.name }}</h2>
-        <div
-          #messageContainer
-          class="card-text"
-          style="
-            max-height: 500px;
-            width: 100%;
-            overflow-y: auto;
-            height: 400px;
-            overflow-x: hidden;
-          "
-        >
-          <ng-container
-            *ngIf="messageList.length === 0; else messagesContainer"
-          >
-            <div class="text-center">{{ isLoadingMessage }}</div>
-          </ng-container>
-          <ng-template #messagesContainer>
-            <div class="row" *ngFor="let message of messageList">
-              <ng-container *ngIf="message?.senderId == user._id">
-                <div class="d-flex justify-content-end text-end">
-                  <div
-                    class="rounded m-2"
-                    style="min-width: 200px; min-height: 100px"
-                  >
-                    <span class="title-name d-grid p-3">{{ "You" }}</span>
-                    <p class="d-inline right">
-                      {{ message?.message }}
-                    </p>
-                  </div>
-                </div>
-              </ng-container>
-
-              <ng-container *ngIf="message?.senderId != user._id">
-                <div class="d-flex justify-content-start text-start">
-                  <div
-                    class="rounded m-2"
-                    style="min-width: 200px; min-height: 100px"
-                  >
-                    <span class="title-name d-grid p-3">{{
-                      message?.senderName
-                    }}</span>
-                    <p class="d-inline left">
-                      {{ message?.message }}
-                    </p>
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-          </ng-template>
-        </div>
-
-        <div class="d-flex justify-content-end mx-5">
-          <input
-            class="col-10"
-            [(ngModel)]="newMessage"
-            placeholder="Enter Message....."
-            (keydown.enter)="sendMessage()"
-          />
-          <span class="p-3" (click)="sendMessage()"
-            ><i class="fa fa-send" style="color: #3f51b5; font-size: large;"></i
-          ></span>
+<div class="chat-wrapper">
+  <div class="chat-card glass-panel">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <mat-icon class="header-icon">chat_bubble_outline</mat-icon>
+        <div>
+          <h2>Ride Chat Room</h2>
+          <p class="subtitle" *ngIf="rideDetails?.dropoffLocation">{{ rideDetails.dropoffLocation.name }}</p>
         </div>
       </div>
-    
+    </div>
+
+    <!-- Messages List Container -->
+    <div #messageContainer class="chat-body">
+      <ng-container *ngIf="messageList.length === 0; else messagesContainer">
+        <div class="chat-empty-state">
+          <mat-icon class="empty-icon">sms</mat-icon>
+          <p>{{ isLoadingMessage }}</p>
+        </div>
+      </ng-container>
+      
+      <ng-template #messagesContainer>
+        <div class="messages-list">
+          <div 
+            *ngFor="let message of messageList" 
+            class="message-row"
+            [ngClass]="{'message-sent': message?.senderId == user._id, 'message-received': message?.senderId != user._id}"
+          >
+            <div class="message-bubble">
+              <span class="message-sender" *ngIf="message?.senderId != user._id">{{ message?.senderName }}</span>
+              <span class="message-sender" *ngIf="message?.senderId == user._id">You</span>
+              <p class="message-text">{{ message?.message }}</p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Input Footer Bar -->
+    <div class="chat-footer">
+      <div class="input-container">
+        <input
+          [(ngModel)]="newMessage"
+          placeholder="Type your message here..."
+          (keydown.enter)="sendMessage()"
+          class="message-input"
+        />
+        <button (click)="sendMessage()" class="send-button mat-raised-button" color="primary">
+          <mat-icon>send</mat-icon>
+          <span>Send</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

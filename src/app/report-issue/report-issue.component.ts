@@ -100,7 +100,7 @@ export class ReportIssueComponent implements OnInit {
                 this.authService.refreshToken().subscribe(
                   (refreshSuccess) => {
                     this.authService.setToken(refreshSuccess.token);
-                    this.router.navigate(["/router"]);
+                    this.router.navigate(["/myRides"]);
                   },
                   (refreshError) => {
                     console.error("Error refreshing token:", refreshError);
